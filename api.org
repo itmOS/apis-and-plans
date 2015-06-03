@@ -1,0 +1,34 @@
+* Fd Object Structure
+struc FdObject
+    .shared_count  resd 1 ; fd objs are shared pointers
+    .obj_type      resd 1 ; 0 for tty, 1 for file I/O, 2 for pipes
+    .resource_data resd 1 ; obj_type dependent - 0 for tty, fat_file* for file I/O, pipe_obj* for pipes
+    .sizeof
+endstruc
+
+* Scheduler: sched/sched.inc
+** int FORK() ; <0 for error, 0 for child, child PID for parent.
+*** Create a new process by copying a state of the current one.
+** void PROCESS_LOCK_SET()
+*** Do not switch task on timer interrupt till this lock is triggered back.
+    NB: Should be used as rare as possible! Provided for ability of performing atomic
+        operations (e.g. append an element to a list or do something related to hardware).
+** void PROCESS_LOCK_RELEASE()
+*** Release the task lock.
+** int CURRENT_PID()
+*** Get PID of the current process.
+** int WAIT(int pid) ; <0 for error, return status on success
+*** Wait till a process with pid is terminated.
+** FdObject *FD_OBJ_BY_NUM(int fd) ; -1 if not found in table, pointer otherwise
+*** Find an fd object with a given number in the process' FD table.
+** int FD_OBJ_ADD(FdObject *fdObj) ; Number assigned to the appended fd object.
+*** Place a pointer to this fd object in the leftmost free place of fd table.
+    NB: The scheduler will not alter shared_count of any fd object.
+        Resource manager is supposed to do this when necessary.
+        Applied to every method below as well.
+** void FD_OBJ_ASSIGN(FdObject *fdObj, int newfd)
+*** Assign the given fd object to the given number in the table. If some fd is replaced by this operation, FD_OBJ_CLOSE is called for newfd first.
+** void FD_OBJ_CLOSE(int fd)
+*** Call close method of an object associated with this fd, remove it from the table.
+** void EXIT(int status)
+*** Remove the process from the queue.
