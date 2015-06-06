@@ -34,3 +34,35 @@ If some fd is replaced by this operation, FD_OBJ_CLOSE is called for newfd first
 Call close method of an object associated with this fd, remove it from the table.
 ** void KILL(int pid)
 Kill the process with given pid.
+
+* Memory manager: util/mem/mem.inc
+** void* GET_PHYS_PAGES(int amount);
+   returns address of amount free physical page block
+** void PUT_PHYS_PAGE(void* addr, int amount);
+   frees physical amount page block from addr
+** void MAP(void* virt, void* phys, int amount);
+   maps virtual page bloack to physical page block
+** void UNMAP(void* virt, int amount);
+   unmaps virtual page block and puts physical
+** void* GET_PHYS_ADDR(void* virt);
+   returns where is virtual page mapped
+** void* NEW_PAGE_TABLE();
+   creates new page table so that last 1GB(kernel memory) will be mapped the same way
+** void SWITCH_PAGE_TABLE(void* table);
+   sets given pointer as page table pointer
+** SBRK(int len);
+   increments process data space with len bytes
+
+* Memory lib: lib/mem/mem.inc
+** void* MALLOC(int len);
+   returns pointer to memory chunk of len bytes
+** void FREE(void*);
+   frees memory chunk starting from addr
+
+* Buffer for kbd: dev/kbd/kbd.inc
+** void KBD_BUF_PUTC(char a);
+   adds to keyboard buffer a symbol
+   if there is no free space the oldest sybmol will be removed
+** char KBD_BUF_GETC();
+   get from keyboard buffer a symbol, it will be removed from buffer
+   symbol returned in al
