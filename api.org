@@ -46,10 +46,10 @@ Kill the process with given pid.
    unmaps virtual page block and puts physical
 ** void* GET_PHYS_ADDR(void* virt);
    returns where is virtual page mapped
+** void* DUP_PAGE_TABLE(void* table);
+   duplicates current page table and returns its physical address
 ** void* NEW_PAGE_TABLE();
-   creates new page table so that last 1GB(kernel memory) will be mapped the same way
-** void SWITCH_PAGE_TABLE(void* table);
-   sets given pointer as page table pointer
+   creates new page table with last 1 GB mapped to kernel pages
 ** int BRK(void* addr);
    sets process data segment program break to addr
 
