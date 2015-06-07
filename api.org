@@ -50,8 +50,8 @@ Kill the process with given pid.
    creates new page table so that last 1GB(kernel memory) will be mapped the same way
 ** void SWITCH_PAGE_TABLE(void* table);
    sets given pointer as page table pointer
-** SBRK(int len);
-   increments process data space with len bytes
+** int BRK(void* addr);
+   sets process data segment program break to addr
 
 * Memory lib: lib/mem/mem.inc
 ** void* MALLOC(int len);
@@ -63,6 +63,8 @@ Kill the process with given pid.
 ** void KBD_BUF_PUTC(char a);
    adds to keyboard buffer a symbol
    if there is no free space the oldest sybmol will be removed
+** void KBD_BUF_DELC();
+   removes last added symbol if it is not endl
 ** char KBD_BUF_GETC();
-   get from keyboard buffer a symbol, it will be removed from buffer
+   get from keyboard buffer a symbol(the oldest), it will be removed from buffer
    symbol returned in al
