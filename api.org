@@ -9,11 +9,12 @@ endstruc
 * Scheduler: sched/sched.inc
 ** int EXEC(void* newIP) ; <0 for error, 0 for child, child PID for parent.
 Create a new process by copying a state of the current one. The instruction pointer is placed at newIP.
-NB: The fork() system call can be implemented in a surprisingly simple manner when such a call is provided.
+NB: The fork() system call can be implemented in a surprisingly simple manner when such a function is provided.
 ** void PROCESS_LOCK_SET()
 Do not switch task on timer interrupt till this lock is triggered back.
 NB: Should be used as rare as possible! Provided for ability of performing atomic
     operations (e.g. append an element to a list or do something related to hardware).
+    If there is a way of performing some IO job by handling interrupts, consider using it.
 ** void PROCESS_LOCK_RELEASE()
 Release the task lock.
 ** int CURRENT_PID()
@@ -32,7 +33,7 @@ Assign the given fd object to the given number in the table.
 If some fd is replaced by this operation, FD_OBJ_CLOSE is called for newfd first.
 ** void FD_OBJ_CLOSE(int fd)
 Call close method of an object associated with this fd, remove it from the table.
-** void KILL(int pid)
+** void KILL(int pid, int status)
 Kill the process with given pid.
 
 * Memory manager: util/mem/mem.inc
