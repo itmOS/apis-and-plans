@@ -10,18 +10,11 @@ endstruc
 ** int EXEC(void* newIP) ; <0 for error, 0 for child, child PID for parent.
 Create a new process by copying a state of the current one. The instruction pointer is placed at newIP.
 NB: The fork() system call can be implemented in a surprisingly simple manner when such a function is provided.
-** void PROCESS_LOCK_SET()
-Do not switch task on timer interrupt till this lock is triggered back.
-NB: Should be used as rare as possible! Provided for ability of performing atomic
-    operations (e.g. append an element to a list or do something related to hardware).
-    If there is a way of performing some IO job by handling interrupts, consider using it.
-** void PROCESS_LOCK_RELEASE()
-Release the task lock.
 ** int CURRENT_PID()
 Get PID of the current process.
 ** int WAIT(int pid) ; <0 for error, return status on success
 Wait till a process with pid is terminated.
-** FdObject *FD_OBJ_BY_NUM(int fd) ; -1 if not found in table, pointer otherwise
+** FdObject *FD_OBJ_BY_NUM(int fd) ; 0 if not found in table, pointer otherwise
 Find an fd object with a given number in the process' FD table.
 ** int FD_OBJ_ADD(FdObject *fdObj) ; Number assigned to the appended fd object.
 Place a pointer to this fd object in the leftmost free place of fd table.
