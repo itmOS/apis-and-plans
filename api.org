@@ -35,23 +35,19 @@ Call close method of an object associated with this fd, remove it from the table
 ** void KILL(int pid)
 Kill the process with given pid.
 
-* Memory manager: util/mem/mem.inc
-** void* GET_PHYS_PAGES(int amount);
-   returns address of amount free physical page block
-** void PUT_PHYS_PAGE(void* addr, int amount);
-   frees physical amount page block from addr
-** void MAP(void* virt, void* phys, int amount);
-   maps virtual page bloack to physical page block
-** void UNMAP(void* virt, int amount);
-   unmaps virtual page block and puts physical
-** void* GET_PHYS_ADDR(void* virt);
-   returns where is virtual page mapped
+* Memory manager: dev/mem/mem.inc
 ** void* DUP_PAGE_TABLE(void* table);
    duplicates current page table and returns its physical address
 ** void* NEW_PAGE_TABLE();
    creates new page table with last 1 GB mapped to kernel pages
+** void FREE_PAGE_TABLE(void*);
+   frees pages page table except last 1 GB of virtual memory
 ** int BRK(void* addr);
    sets process data segment program break to addr
+** void* KMALLOC(int len);
+   returns pointer to memory chunk of len bytes in kernel memoy
+** void KFREE(void*);
+   frees memory chunk starting from addr in kernel memoy 
 
 * Memory lib: lib/mem/mem.inc
 ** void* MALLOC(int len);
