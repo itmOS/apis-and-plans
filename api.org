@@ -38,11 +38,6 @@ Kill the process with given pid.
    frees pages page table except last 1 GB of virtual memory
 ** int BRK(void* addr);
    sets process data segment program break to addr
-** void* KMALLOC(int len);
-   returns pointer to memory chunk of len bytes in kernel memoy
-** void KFREE(void*);
-   frees memory chunk starting from addr in kernel memoy 
-
 * Memory lib: lib/mem/mem.inc
 ** void* MALLOC(int len);
    returns pointer to memory chunk of len bytes
