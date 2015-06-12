@@ -36,8 +36,8 @@ Kill the process with given pid.
    creates new page table with last 1 GB mapped to kernel pages
 ** void FREE_PAGE_TABLE(void*);
    frees pages page table except last 1 GB of virtual memory
-** int BRK(void* addr);
-   sets process data segment program break to addr
+** void* SBRK(int increment);
+   increases process data segment program break by increment bytes
 * Memory lib: lib/mem/mem.inc
 ** void* MALLOC(int len);
    returns pointer to memory chunk of len bytes
